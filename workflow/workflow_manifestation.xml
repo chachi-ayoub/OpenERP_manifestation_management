@@ -1,0 +1,155 @@
+<openerp>
+    <data>
+		<!-- Definitions -->
+		<record model="workflow" id="gms_ensah_manifestation_wkf">
+			<field name="name">gms.ensah.manifestation.wkf</field>
+			<field name="osv">gms.ensah.manifestation</field>
+			<field name="on_create">True</field>
+		</record>
+		
+		<!-- Activities-->
+
+		<record model="workflow.activity" id="gms_ensah_manifestation_sponsor">
+			<field name="wkf_id" ref="gms_ensah_manifestation_wkf" />
+			<field name="name">Sponsoring</field>
+            <field name="flow_start">True</field>
+			<field name="kind">function</field>
+			<field name="action">_Sponsoring()</field>
+		</record>
+		<record model="workflow.activity" id="gms_ensah_manifestation_preparation">
+			<field name="wkf_id" ref="gms_ensah_manifestation_wkf" />
+			<field name="name">Preparation</field>
+			<field name="kind">function</field>
+			<field name="action">_Preparing()</field>
+		</record>
+        <record model="workflow.activity" id="gms_ensah_manifestation_organisation">
+			<field name="wkf_id" ref="gms_ensah_manifestation_wkf" />
+			<field name="name">Organisation</field>
+			<field name="kind">function</field>
+			<field name="action">_Organisation()</field>
+		</record>
+        <record model="workflow.activity" id="gms_ensah_manifestation_commencee">
+			<field name="wkf_id" ref="gms_ensah_manifestation_wkf" />
+			<field name="name">Commencee</field>
+			<field name="kind">function</field>
+			<field name="action">_Starting()</field>
+		</record>
+        <record model="workflow.activity" id="gms_ensah_manifestation_terminee">
+			<field name="wkf_id" ref="gms_ensah_manifestation_wkf" />
+			<field name="name">Terminee</field>
+            <field name="flow_stop">True</field>
+			<field name="kind">function</field>
+			<field name="action">_Done()</field>
+		</record>
+        <record model="workflow.activity" id="gms_ensah_manifestation_reportee">
+			<field name="wkf_id" ref="gms_ensah_manifestation_wkf" />
+			<field name="name">Reportee</field>
+			<field name="kind">function</field>
+			<field name="action">_Postponed()</field>
+		</record>
+        <record model="workflow.activity" id="gms_ensah_manifestation_annulee">
+			<field name="wkf_id" ref="gms_ensah_manifestation_wkf" />
+			<field name="name">Annulee</field>
+            <field name="flow_stop">True</field>
+			<field name="kind">function</field>
+			<field name="action">_Canceled()</field>
+		</record>
+
+
+
+
+
+
+
+        <record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr1">
+			<field name="act_from" ref="gms_ensah_manifestation_sponsor" />
+			<field name="act_to" ref="gms_ensah_manifestation_preparation" />
+			<field name="signal">sponsor_preparation</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr21">
+			<field name="act_from" ref="gms_ensah_manifestation_sponsor" />
+			<field name="act_to" ref="gms_ensah_manifestation_reportee" />
+			<field name="signal">sponsor_reportee</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr22">
+			<field name="act_from" ref="gms_ensah_manifestation_sponsor" />
+			<field name="act_to" ref="gms_ensah_manifestation_annulee" />
+            <field name="flow_stop">True</field>
+			<field name="signal">sponsor_annulee</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr2">
+			<field name="act_from" ref="gms_ensah_manifestation_preparation" />
+			<field name="act_to" ref="gms_ensah_manifestation_organisation" />
+			<field name="signal">preparation_organisation</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr3">
+			<field name="act_from" ref="gms_ensah_manifestation_preparation" />
+			<field name="act_to" ref="gms_ensah_manifestation_reportee" />
+			<field name="signal">preparation_reportee</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr4">
+			<field name="act_from" ref="gms_ensah_manifestation_preparation" />
+			<field name="act_to" ref="gms_ensah_manifestation_annulee" />
+            <field name="flow_stop">True</field>
+			<field name="signal">preparation_annulee</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr5">
+			<field name="act_from" ref="gms_ensah_manifestation_organisation" />
+			<field name="act_to" ref="gms_ensah_manifestation_commencee" />
+			<field name="signal">organisation_commencee</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr6">
+			<field name="act_from" ref="gms_ensah_manifestation_organisation" />
+			<field name="act_to" ref="gms_ensah_manifestation_reportee" />
+			<field name="signal">organisation_reportee</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr7">
+			<field name="act_from" ref="gms_ensah_manifestation_organisation" />
+			<field name="act_to" ref="gms_ensah_manifestation_annulee" />
+			<field name="signal">organisation_annulee</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr8">
+			<field name="act_from" ref="gms_ensah_manifestation_commencee" />
+			<field name="act_to" ref="gms_ensah_manifestation_terminee" />
+            <field name="flow_stop">True</field>
+			<field name="signal">commencee_terminee</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr9">
+			<field name="act_from" ref="gms_ensah_manifestation_commencee" />
+			<field name="act_to" ref="gms_ensah_manifestation_reportee" />
+			<field name="signal">commencee_reportee</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr10">
+			<field name="act_from" ref="gms_ensah_manifestation_commencee" />
+			<field name="act_to" ref="gms_ensah_manifestation_annulee" />
+			<field name="flow_stop">True</field>
+			<field name="signal">commencee_annulee</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr11">
+			<field name="act_from" ref="gms_ensah_manifestation_reportee" />
+			<field name="act_to" ref="gms_ensah_manifestation_preparation" />
+			<field name="signal">reportee_preparation</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr12">
+			<field name="act_from" ref="gms_ensah_manifestation_reportee" />
+			<field name="act_to" ref="gms_ensah_manifestation_organisation" />
+			<field name="signal">reportee_organisation</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr13">
+			<field name="act_from" ref="gms_ensah_manifestation_reportee" />
+			<field name="act_to" ref="gms_ensah_manifestation_commencee" />
+			<field name="signal">reportee_commencee</field>
+		</record>
+		<record model="workflow.transition" id="gms_ensah_manifestation_wkf_tr15">
+			<field name="act_from" ref="gms_ensah_manifestation_reportee" />
+			<field name="act_to" ref="gms_ensah_manifestation_annulee" />
+            <field name="flow_stop">True</field>
+			<field name="signal">reportee_annulee</field>
+		</record>
+
+
+       
+		
+
+   </data>
+</openerp>
